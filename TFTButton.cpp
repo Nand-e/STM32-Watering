@@ -1,8 +1,16 @@
 
-#include "Taszt.h"
+
 #include "TFTButton.h"
 #include "TFT.h"
 #include <Arduino.h>
+
+// static varible definitions
+Adafruit_TFTLCD * Button::tft;
+
+/**************************************************************************************************************/
+Button::Button() {
+	handler = 0;
+}
 
 /*Construct Button in x,y coordinate **************************************************************************/
 Button::Button ( uint16_t x0, uint16_t y0, uint16_t w0, uint16_t h0, uint8_t id, bool mirrored1, uint16_t color ) :
@@ -11,13 +19,8 @@ Button::Button ( uint16_t x0, uint16_t y0, uint16_t w0, uint16_t h0, uint8_t id,
     pressed = false;
     mirrored = mirrored1;
     unpressedcounter = 0;
-    handler = 0;
-    ID = id;
-}
+    handler = 0;    ID = id;
 
-/**************************************************************************************************************/
-Button::Button () {
-  handler = 0;  
 }
 
 /**************************************************************************************************************/
@@ -29,6 +32,11 @@ void Button::set( uint16_t x0, uint16_t y0, uint16_t w0, uint16_t h0, uint8_t id
   unpressedcounter = 0;
   ID = id;
   backColor = color;
+}
+
+/****************************************************************************************************************/
+void Button::setDisplay(Adafruit_TFTLCD * tft) {
+	Button::tft = tft;
 }
 
 /* Call every loop on every Button ****************************************************************************/
@@ -49,37 +57,27 @@ void Button::update (  uint16_t x, uint16_t y , uint16_t z ) {
 void Button::updateButtonState ( uint16_t x, uint16_t y, bool press ) {
     bool oldpressed = pressed;
     if ( press == true ) {  
-        if ( x > x1 && x < ( x1 + w ) &&  y > y1 && y < ( y1 + h )) {
-         unpressedcounter = 0;
-         pressed = true;
-      } else {
-         pressed = false;   // Not this button pressed
+        if ( x > x1 && x < ( x1 + w ) &&  y > y1 && y < ( y1 + h )) {      
+			pressed = true;    unpressedcounter = 0;
+		} else {
+			pressed = false;   // Not this button pressed
         }      
-    } else {
-      pressed = false;
-    }
+	} else { pressed = false; }
 
-    if ( pressed ) {
-      if ( handler != 0 ) {
-        handler->callBack1( pressed , ID);
-      }
-    }
-  
-    if ( oldpressed != pressed ) {                    // Button changed
+    
+    if ( oldpressed != pressed ) {										// Button changed
      updateGraphic();      
-     if ( handler != 0 ) { handler->callBack2( pressed, ID );  }
-     else { 
-/*      if ( pressed ) {  Serial.println(F("Button Pressed!")); }
-      else { Serial.println(F("Button Relased!")); }*/
-      
-     }
-    }
+     if ( handler != 0 ) handler->callBack1( pressed, ID ); 
+	 return;
+	}
+
+	if (pressed && handler != 0)  handler->callBack2(pressed, ID);     // continouse pressing 
 } 
 
 /*  
  **********************************************************************************/
 void Button::updateGraphic ( ) {
-    
+//	if (tft == 0) return;
     char sign;
     if ( ID > 9 ) {
       switch ( ID ) {
@@ -92,7 +90,7 @@ void Button::updateGraphic ( ) {
     }
   
     if ( pressed ) {
-       tft.drawBMP2( x1, y1, ( uint16_t * ) Arrow, 22,  32 ,
+       tft->drawBMP2( x1, y1, ( uint16_t * ) Arrow, 22,  32 ,
                           mirrored, 0b0110000110001100, backColor);   
   /*    tft.drawRoundRect( x1,  y1, w, h, RAD, WHITE ); 
       tft.fillRoundRect( x1 + 2, y1+2, w - 4, h -4, RAD, BLACK );
@@ -105,7 +103,7 @@ void Button::updateGraphic ( ) {
     //  tft.println( sign);
       
     } else {
-       tft.drawBMP2( x1, y1, ( uint16_t * ) Arrow , 22,  32, mirrored, 0 , backColor);  
+       tft->drawBMP2( x1, y1, ( uint16_t * ) Arrow , 22,  32, mirrored, 0 , backColor);  
        /* tft.fillRoundRect( x1 + 2, y1+2, w - 4, h -4, RAD, BLACK );*/
        //  tft.setCursor( x1 + 28, y1 + 16 );     
        //  tft.setTextColor( 0b1011110111110111  );       
