@@ -78,40 +78,11 @@ void Button::updateButtonState ( uint16_t x, uint16_t y, bool press ) {
  **********************************************************************************/
 void Button::updateGraphic ( ) {
 //	if (tft == 0) return;
-    char sign;
-    if ( ID > 9 ) {
-      switch ( ID ) {
-        case 10: sign = '*'; break;
-        case 11: sign = '0'; break;
-        case 12: sign = '#'; break;        
-      }
-    } else {
-      sign = '0' + ID;
-    }
-  
     if ( pressed ) {
        tft->drawBMP2( x1, y1, ( uint16_t * ) Arrow, 22,  32 ,
-                          mirrored, 0b0110000110001100, backColor);   
-  /*    tft.drawRoundRect( x1,  y1, w, h, RAD, WHITE ); 
-      tft.fillRoundRect( x1 + 2, y1+2, w - 4, h -4, RAD, BLACK );
-      tft. fillRoundRect( x1 + 4, y1+4, w - 8, h -8, RAD, WHITE );
-      tft.drawRoundRect ( x1 + 4,  y1 + 4, w -8 , h - 8, RAD , WHITE );   */
-   
-    //   tft.setCursor( x1 + 28, y1 +  16);
-    //   tft.setTextColor( 0x84FF );
-    //   tft.setTextSize(4);
-    //  tft.println( sign);
-      
+                          mirrored, 0b0110000110001100, backColor);       
     } else {
-       tft->drawBMP2( x1, y1, ( uint16_t * ) Arrow , 22,  32, mirrored, 0 , backColor);  
-       /* tft.fillRoundRect( x1 + 2, y1+2, w - 4, h -4, RAD, BLACK );*/
-       //  tft.setCursor( x1 + 28, y1 + 16 );     
-       //  tft.setTextColor( 0b1011110111110111  );       
-       //  tft.setTextSize(4);
-       //   tft.print( sign );      
-       /*  tft.drawRoundRect ( x1,  y1, w, h, RAD , WHITE );  
-          tft.drawRoundRect ( x1 + 2,  y1 + 2, w -4 , h - 4, RAD , WHITE );       */
-      
+       tft->drawBMP2( x1, y1, ( uint16_t * ) Arrow , 22,  32, mirrored, 0 , backColor);        
     }
   }
 

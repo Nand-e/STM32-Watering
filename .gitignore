@@ -1,0 +1,4 @@
+*.buildinfo
+Debug/WateringUNO.ino.elf
+*.hex
+__vm/Upload.vmps.xml

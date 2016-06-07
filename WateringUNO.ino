@@ -1,15 +1,11 @@
 #include <TouchScreen.h>
 
 #include "TFT.h"
-#include "TFTButton.h"		// GUI BUTTON with bitmap
-#include "TFTButton1.h"		// GUI BUTTON without bitmap
-#include "Bitmaps.h"	
-#include "Scroll.h"			// GUI scroll bar lazering TFTBUTTONS
-
 #include "FS.h"				// final state machine class
 
 
 #include "measure.h"
+#include "WateringSetup.h"
 
 #define YP A3
 #define XM A2
@@ -34,17 +30,10 @@
 Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 TouchScreen     ts = TouchScreen(XP, YP, XM, YM, 300);
 
-ScrollBar scroll ( 30,20, 170, Water );
-ScrollBar scroll2 ( 30,70, 170, Clock );
-ScrollBar scroll3 ( 30,120, 170, TimeBan );
-
-StateMachine machine;
-measure baseState(&machine, &tft);
-
-
-
-//StateBase 
-//StateMachine wateringMachine(base);
+//******** State Machine and states
+StateMachine  machine;
+measure       baseState( &machine, &tft);
+WateringSetup setupState(&machine, &tft);
 
  
 /* Setup ******************************************************************************************/
@@ -52,21 +41,14 @@ void setup(void) {
 
   Serial.begin (9600);
   Serial.println ( "Watering system start!");
-
   tft.reset();
   uint16_t identifier = tft.readID();
   Serial.println ( identifier );
   tft.begin(identifier); 
   tft.setRotation (1);
-  tft.fillScreen(tft.color565( 0,100, 50 ));
+
   pinMode(13, OUTPUT);
-
-  scroll.setDisplay(&tft);
-
-  scroll.updateGraphic();
-  scroll2.updateGraphic();
-  scroll3.updateGraphic();
-
+  
   machine.TransitionTo(&baseState);
 
 }
@@ -98,22 +80,8 @@ void loop()
    /* Serial.print ( p.x );
     Serial.print ( " , " );
     Serial.println ( p.y );*/
-  } 
-  
+  }  
 
-  
-
-  machine.update(p2.x, p2.y, p.z);
-
-
-  scroll.update ( p2.x, p2.y, p.z );  
-  scroll2.update ( p2.x, p2.y, p.z );
-  scroll3.update ( p2.x, p2.y, p.z );
-
-
-
- 
-
-  
+   machine.update(p2.x, p2.y, p.z);  
 }
 
