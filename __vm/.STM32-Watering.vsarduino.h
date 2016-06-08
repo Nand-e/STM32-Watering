@@ -66,6 +66,8 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\STM32-Watering\WateringUNO.ino>
 #include <..\STM32-Watering\Adafruit_GFX.cpp>
 #include <..\STM32-Watering\Adafruit_GFX.h>
+#include <..\STM32-Watering\BarGraph.cpp>
+#include <..\STM32-Watering\BarGraph.h>
 #include <..\STM32-Watering\Bitmaps.cpp>
 #include <..\STM32-Watering\Bitmaps.h>
 #include <..\STM32-Watering\FS.h>

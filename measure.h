@@ -5,6 +5,8 @@
 #include "TFT.h"
 #include "TFTBUTTON1.h"
 
+#include "BarGraph.h"
+
 class measure : public State, public ButtonHandler
 {
 public:
@@ -19,8 +21,9 @@ public:
 	//~measure();
 private:
 	Adafruit_TFTLCD * tft;	
-	Button1 b1;
-	//Button1 b2;
+	Button b1;
+	BarGraph bg1;
+
 	void callBack1(bool pressed, uint8_t id);
 
 

@@ -447,7 +447,7 @@ void Adafruit_GFX::drawChar(int16_t x, int16_t y, unsigned char c,
         if (size == 1) // default size
           drawPixel(x+i, y+j, color);
         else {  // big size
-          fillRect(x+(i*size), y+(j*size), size, size, color);
+          fillRect(x+(i*( size+1)), y+(j*(size+1)), size, size, color);
         } 
       } else if (bg != color) {
         if (size == 1) // default size

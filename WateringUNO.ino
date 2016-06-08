@@ -55,8 +55,6 @@ void setup(void) {
 
 
 
-enum States { NOrmal, Setup };
-
 void loop()
 {  
   digitalWrite(13, HIGH);
@@ -75,11 +73,12 @@ void loop()
    p2.y = map(p.x, TS_MINX, TS_MAXX,0, 240 );   
    p2.x = map(p.y, TS_MAXY, TS_MINY, 0, 320 );    
    
-    //tft.fillCircle ( p2.x, p2.y , 2, 0xf000 );
+  /*  tft.fillCircle ( p2.x, p2.y , 2, 0xf000 );
     
-   /* Serial.print ( p.x );
+    Serial.print ( p.x );
     Serial.print ( " , " );
     Serial.println ( p.y );*/
+
   }  
 
    machine.update(p2.x, p2.y, p.z);  

@@ -1,6 +1,7 @@
 #include "measure.h"
 #include "WateringSetup.h"
 
+
 #define RED2RED 0
 #define GREEN2GREEN 1
 #define BLUE2BLUE 2
@@ -10,14 +11,16 @@
 
 extern WateringSetup setupState;
 
-measure::measure (StateMachine * m, Adafruit_TFTLCD * tft1) :
-	State(m),
-	tft( tft1),
-	b1( 0, 200, 60, 35, 18)
+measure::measure(StateMachine * m, Adafruit_TFTLCD * tft1) :
+State(m),
+tft(tft1),
+b1(5, 200, 60, 35, 18, false, 0, "Setup"),
+bg1(tft1, 100, 100, 100)
 	//b2( 100, 200, 50, 35 ,6)
 {	
 	b1.setDisplay(tft);
 	b1.setHandler(this);
+	b1.setColors(0xffff, 0x00ee);
 	//b2.setHandler(this);
 }
 
@@ -35,16 +38,25 @@ void measure::update(uint16_t x, uint16_t y, uint8_t z) {
 	
 //	b2.update(x, y, z);
 	
-	static uint16_t d = 0;
-	d += 5; if (d >= 100) d = 0;
+	static uint8_t d = 0;
+	static uint8_t c = 0;
+	
+	d++; 
+	if (d >= 200) {
+		d = 0;
+		c++;
+		c %= 100;
+		tft->setTextSize(10);
+		tft->setCursor(50, 50);
+	//	tft->fillRect(50, 50, 140, 80, tft->color565(100, 0, 100));
+	//	tft->print(c);
 
+	}
+	bg1.setValue(c);
 	// Set the the position, gap between meters, and inner radius of the meters
 	int xpos = 3, ypos = 5, gap = 4, radius = 50;
+	// xpos = gap + ringMeter(d, 0, 255, xpos, ypos, radius, "mA", GREEN2RED); // Draw analogue meter
 
-	xpos = gap + ringMeter(d, 0, 255, xpos, ypos, radius, "mA", GREEN2RED); // Draw analogue meter
-	xpos = gap + ringMeter(100-d, 0, 255, xpos, ypos, radius, "degC", GREEN2RED); // Draw analogue meter
-	ringMeter(d / 3, 0, 100, xpos, ypos, radius, "%RH", GREEN2RED); // Draw analogue meter
-	
 	b1.update(x, y, z);
 }
 
@@ -170,10 +182,3 @@ unsigned int measure::rainbow(uint8_t value)
 	}
 	return (blue << 11) + (green << 5) + red;
 }
-
-// #########################################################################
-// Return a value in range -1 to +1 for a given phase angle in degrees
-// #########################################################################
-/*float sineWave(int phase) {
-	return sin(phase * 0.0174532925);
-}*/

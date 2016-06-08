@@ -4,8 +4,16 @@
 #include "State.h"
 #include "FS.h"
 #include "TFT.h"
-#include "TFTBUTTON1.h"
+#include "TFTBUTTON.h"
 #include "Scroll.h"
+
+
+struct chanel {
+	chanel();
+	uint8_t threshold;
+	uint8_t timeS;
+	uint8_t timeBan;
+};
 
 class WateringSetup : public State, ButtonHandler
 {
@@ -20,15 +28,15 @@ public:
 	// ~
 private:
 	Adafruit_TFTLCD * tft;
-	Button1   ch1;
-	Button1   ch2;
-	Button1   ch3;
-	Button1   back;
+	Button   ch1;
+	Button   ch2;
+	Button   ch3;
+	Button   back;
 	ScrollBar scroll1;
 	ScrollBar scroll2;
 	ScrollBar scroll3;	
 	void callBack1(bool pressed, uint8_t id);
-
-
+	chanel c1, c2, c3;
+	chanel * actualChanel;
 };
 
