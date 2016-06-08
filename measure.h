@@ -23,9 +23,8 @@ private:
 	Adafruit_TFTLCD * tft;	
 	Button b1;
 	BarGraph bg1;
-
+	BarGraph bg2;
+	BarGraph bg3;
 	void callBack1(bool pressed, uint8_t id);
-
-
 };
 

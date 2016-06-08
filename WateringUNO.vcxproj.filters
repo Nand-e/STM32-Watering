@@ -63,6 +63,12 @@
     <ClInclude Include="WateringSetup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BarGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="STM32\Adafruit_ST7735.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Adafruit_GFX.cpp">
@@ -93,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WateringSetup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BarGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

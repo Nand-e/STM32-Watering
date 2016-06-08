@@ -13,18 +13,18 @@ public:
   uint8_t getValue() { return value; }
   void callBack1 (bool, uint8_t);
   void callBack2 (bool, uint8_t );
-  void setDisplay(Adafruit_TFTLCD * tft);
+  void setDisplay(Adafruit_GFX * tft);
 protected:
   Button1 b1, b2;  
   ButtonHandler handler;
   uint8_t width;
   uint16_t x,y;
-  uint8_t value;
+  uint8_t value, oldvalue;
   uint8_t bitmapH, ArrowW;
   uint8_t bitmapW;
   const uint16_t * bitmap;
 
-  static Adafruit_TFTLCD * tft;
+  static Adafruit_GFX * tft;
 };
 
 #endif

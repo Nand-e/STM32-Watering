@@ -32,6 +32,7 @@ private:
 	Button   ch2;
 	Button   ch3;
 	Button   back;
+	Button   save;
 	ScrollBar scroll1;
 	ScrollBar scroll2;
 	ScrollBar scroll3;	

@@ -61,6 +61,9 @@ class Adafruit_GFX : public Print {
     setTextWrap(boolean w),
     setRotation(uint8_t r);
 
+	// Pass 8-bit (each) R,G,B, get back 16-bit packed color
+    uint16_t color565(uint8_t r, uint8_t g, uint8_t b) { return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3); }
+
 #if ARDUINO >= 100
   virtual size_t write(uint8_t);
 #else

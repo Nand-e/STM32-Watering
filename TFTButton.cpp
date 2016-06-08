@@ -1,11 +1,10 @@
 
 
 #include "TFTButton.h"
-#include "TFT.h"
 #include <Arduino.h>
 
 // static varible definitions
-Adafruit_TFTLCD * Button::tft;
+Adafruit_GFX * Button::tft;
 
 /**************************************************************************************************************/
 Button::Button() {
@@ -41,7 +40,7 @@ void Button::setColors(uint16_t c1, uint16_t bc) {
 }
 
 /****************************************************************************************************************/
-void Button::setDisplay(Adafruit_TFTLCD * tft) {
+void Button::setDisplay(Adafruit_GFX * tft) {
 	Button::tft = tft;
 }
 

@@ -415,7 +415,7 @@ void Adafruit_GFX::write(uint8_t c) {
     // skip em
   } else {
     drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize);
-    cursor_x += textsize*6;
+    cursor_x += textsize*7;
     if (wrap && (cursor_x > (_width - textsize*6))) {
       cursor_y += textsize*8;
       cursor_x = 0;

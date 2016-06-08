@@ -2,7 +2,7 @@
 #define TFTBUTTON
 
 #include <stdint.h>
-#include "TFT.h"
+#include "Adafruit_GFX.h"
 
 #define MINPRESSURE		 10      // for touch screen sensitivity
 #define MAXPRESSURE		 1000
@@ -32,7 +32,7 @@ class Button {
 public:
     Button ();
 	Button(uint16_t x0, uint16_t y0, uint16_t w0, uint16_t h0, uint8_t id, bool mirrored = false, uint16_t backC = 0, char * text1 = 0);
-	void setDisplay(Adafruit_TFTLCD * tft);
+	void setDisplay(Adafruit_GFX * tft);
 	void set( uint16_t x0, uint16_t y0, uint16_t w0, uint16_t h0, uint8_t id, bool mirrored = false, uint16_t backC=0);   
 	void setColors(uint16_t color1, uint16_t backC);
     void update (  uint16_t x, uint16_t y , uint16_t z ) ;
@@ -50,7 +50,7 @@ protected:
    uint16_t  backColor;
    uint16_t  color;
    
-   static Adafruit_TFTLCD * tft;
+   static Adafruit_GFX* tft;
 };
 
 

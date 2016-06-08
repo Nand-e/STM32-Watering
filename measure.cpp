@@ -15,7 +15,9 @@ measure::measure(StateMachine * m, Adafruit_TFTLCD * tft1) :
 State(m),
 tft(tft1),
 b1(5, 200, 60, 35, 18, false, 0, "Setup"),
-bg1(tft1, 100, 100, 100)
+bg1(tft1, 30, 20, 200),
+bg2(tft1, 30, 60, 200),
+bg3(tft1, 30, 100, 200)
 	//b2( 100, 200, 50, 35 ,6)
 {	
 	b1.setDisplay(tft);
@@ -42,17 +44,19 @@ void measure::update(uint16_t x, uint16_t y, uint8_t z) {
 	static uint8_t c = 0;
 	
 	d++; 
-	if (d >= 200) {
+	if (d >= 5) {
 		d = 0;
 		c++;
 		c %= 100;
-		tft->setTextSize(10);
-		tft->setCursor(50, 50);
-	//	tft->fillRect(50, 50, 140, 80, tft->color565(100, 0, 100));
-	//	tft->print(c);
+		tft->setTextSize(4);
+		tft->setCursor(150, 150);
+		tft->fillRect(150, 150, 50, 50, tft->color565(100, 0, 100));
+		tft->print(c);
 
 	}
-	bg1.setValue(c);
+	bg1.setValue(c, 40);
+	bg2.setValue(c, 60);
+	bg3.setValue(c, 200 - c);
 	// Set the the position, gap between meters, and inner radius of the meters
 	int xpos = 3, ypos = 5, gap = 4, radius = 50;
 	// xpos = gap + ringMeter(d, 0, 255, xpos, ypos, radius, "mA", GREEN2RED); // Draw analogue meter
