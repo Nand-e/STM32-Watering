@@ -29,6 +29,8 @@ void ScrollBar::update(uint16_t x, uint16_t y, uint16_t z) {
 	b1.update(x, y, z);
 	b2.update(x, y, z);
 
+
+	
 }
 
 //*************************************************************************************************
@@ -48,10 +50,10 @@ void ScrollBar::updateGraphic() {
 	tft->fillRoundRect(x - 2, y - 2, width + bitmapW * 2 + ArrowW + 10, bitmapH + 4, 2, BACK);
 	tft->drawRoundRect(x - 2, y - 2, width + bitmapW * 2 + ArrowW + 10, bitmapH + 4, 2, tft->Color565(150, 150, 150));
 	tft->drawLine(x + bitmapW + 2, y - 1, x + bitmapW + 2, y + bitmapH + 1, tft->Color565(150, 150, 150));
-	tft->fillRect(x + ArrowW + bitmapW + 6, y + 2, width +10 , 28, tft->Color565(100, 100, 200));
+	tft->fillRect(x + ArrowW + bitmapW + 6, y + 7, width +10 , 20, tft->Color565(100, 100, 200));
 	callBack1(true, 1);
 	if (bitmap != 0) {
-		((Adafruit_TFTLCD  * )tft)->drawBMP2(x, y, bitmap, 32, 32, false, 0, BACK);
+		((Adafruit_TFTLCD  *) tft )->drawBitmap(x, y, bitmap, 32, 32, 0);
 	}
 	callBack2(true, 0 );
 	b1.updateGraphic();
@@ -71,8 +73,8 @@ void ScrollBar::callBack2(bool pressed, uint8_t ID) {
 		if (oldvalue != value)
 		{		
 			if (tft == 0) return;
-			tft->fillRect(x + bitmapW + ArrowW + 6 + oldvalue, y + 2, 10, 28, tft->color565(100, 100, 200));
-			tft->fillRoundRect(x + bitmapW + ArrowW + 6 + value, y + 2, 10, 28, 3, tft->color565(100, 200, 200));
+			tft->fillRect(x + bitmapW + ArrowW + 6 + oldvalue, y + 7, 10, 20, tft->color565(100, 100, 200));
+			tft->fillRoundRect(x + bitmapW + ArrowW + 6 + value, y + 7, 10, 20, 3, tft->color565(100, 200, 200));
 			oldvalue = value;
 		}
 	}
