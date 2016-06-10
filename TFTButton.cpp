@@ -76,23 +76,23 @@ void Button::updateButtonState ( uint16_t x, uint16_t y, bool press ) {
 void Button::updateGraphic ( ) {
     if (tft == 0) return;
 	if (pressed) {
-		tft->drawRoundRect(x1, y1, w, h, RAD, color);
-		tft->fillRoundRect(x1 + 2, y1 + 2, w - 4, h - 4, RAD, backColor);
-		tft->fillRoundRect(x1 + 4, y1 + 4, w - 8, h - 8, RAD, color);
-		tft->drawRoundRect(x1 + 4, y1 + 4, w - 8, h - 8, RAD, color);
+	
+		
+		tft->fillRoundRect(x1 + 3, y1 + 3, w - 6, h - 6, RAD, backColor << 2);
+	
+		
 		if (text != 0) {
-			tft->setCursor(x1 + 15, y1+10 );
+			tft->setCursor(x1 + 15, y1+12 );
 			tft->setTextColor(backColor);
 			tft->setTextSize(1);
 			tft->println(text);
 		}
 	}
 	else {
-		tft->fillRoundRect(x1 + 2, y1 + 2, w - 4, h - 4, RAD, backColor);
-		tft->drawRoundRect(x1, y1, w, h, RAD, color);
-		tft->drawRoundRect(x1 + 2, y1 + 2, w - 4, h - 4, RAD, color);
+		tft->fillRoundRect(x1, y1, w, h, RAD, backColor);
+		tft->drawRoundRect(x1, y1, w, h,RAD , color);
 		if (text != 0) {
-			tft->setCursor(x1 + 15 , y1+10);
+			tft->setCursor(x1 + 15 , y1+12);
 			tft->setTextColor(color);
 			tft->setTextSize(1);
 			tft->print(text);

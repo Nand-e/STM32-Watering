@@ -12,16 +12,17 @@ chanel::chanel() {
 	timeBan   = 0;
 }
 
+#define SY 75
 WateringSetup::WateringSetup(StateMachine * m, Adafruit_TFTLCD * tft1) :
 	State(m),
 	tft(tft1),
-	scroll1(10, 45, 190, Water),
-	scroll2(10, 90, 190, Clock),
-	scroll3(10, 135, 190, TimeBan),
-	ch1(65, 5, 50, 30, 8, false, 0, "ch1"),
-	ch2(135, 5, 50, 30, 9, false, 0, "ch2"),
-	ch3(205, 5, 50, 30, 10, false, 0, "ch3"),
-	back(255, 200, 60, 35, 12, false, 0, "back"),
+	scroll1(18, SY, 190, Water),
+	scroll2(18, SY+40, 190, Clock),
+	scroll3(18, SY+80, 190, TimeBan),
+	ch1( 65,  5, SY-20, 30, 8, false, 0, "Ch1"),
+	ch2( 135, 5, SY-20, 30, 9, false, 0, "Ch2"),
+	ch3( 205, 5, SY-20, 30, 10, false,0, "Ch3"),
+	back(255, 200, 60, 35, 12, false, 0, "Back"),
 	save(180, 200, 60, 35, 13, false, 0, "Save")
 {
 	scroll1.setDisplay(tft);	
@@ -30,17 +31,18 @@ WateringSetup::WateringSetup(StateMachine * m, Adafruit_TFTLCD * tft1) :
 	ch1.setHandler(this);
 	ch2.setHandler(this);
 	ch3.setHandler(this);
-	ch1.setColors(0xffff, 0x00ee);
-	ch2.setColors(0xffff, 0x00ee);
-	ch3.setColors(0xffff, 0x00ee);
-	back.setColors(0xffff, 0x00ee);
-	save.setColors(0xffff, 0x00ee);
+	ch1.setColors(0xffff, 0x50ee);
+	ch2.setColors(0xffff, 0x50ee);
+	ch3.setColors(0xffff, 0x50ee);
+	back.setColors(0xffff, 0x50ee);
+	save.setColors(0xffff, 0x50ee);
 	actualChanel = &c1;
 }
 
 void WateringSetup::enter() {
 	tft->fillRect(0, 0, 320, 240, BACK);
 	tft->drawRoundRect(0, 0, 320, 240, 3, 0xfefe);
+	tft->drawRoundRect(10, SY -30 , 300, 150, 3, 0xfefe);
 	actualChanel = &c1;
 
 	scroll1.updateGraphic();
@@ -56,10 +58,7 @@ void WateringSetup::enter() {
 	back.updateGraphic();
 	save.updateGraphic();	
 
-	tft->setTextSize(2);
-	tft->setCursor(10, 200);
-	tft->print("ch1");
-
+	callBack1(true, 8);
 	Serial.println("->Setup");
 }
 
@@ -85,8 +84,8 @@ void WateringSetup::callBack1(bool pressed, uint8_t id) {
 		actualChanel->timeBan   = scroll3.getValue();
 		tft->setTextSize(2);
 		tft->setTextColor(0xffff);
-		tft->setCursor(10, 200);
-		tft->fillRect(10, 200, 40, 30, BACK);
+		tft->setCursor(15, SY-30);
+		tft->fillRect(15, 40, 50, 25, BACK);
 		
 		if (id == 8) {
 			actualChanel = &c1;	

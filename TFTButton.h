@@ -17,7 +17,7 @@
 #define YELLOW  0xFFE0
 #define WHITE   0xFFFF
 
-#define RAD 5
+#define RAD 4
 
 
 class ButtonHandler {

@@ -75,6 +75,7 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\STM32-Watering\Scroll.cpp>
 #include <..\STM32-Watering\Scroll.h>
 #include <..\STM32-Watering\Source.cpp>
+#include <..\STM32-Watering\Source1.cpp>
 #include <..\STM32-Watering\State.h>
 #include <..\STM32-Watering\TFT.cpp>
 #include <..\STM32-Watering\TFT.h>

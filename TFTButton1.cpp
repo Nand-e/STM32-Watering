@@ -2,6 +2,7 @@
 
 #include "TFTButton1.h"
 #include "Adafruit_GFX.h"
+#include "TFT.h"
 
 
 extern const uint16_t Arrow[];
@@ -21,9 +22,9 @@ Button1::Button1(uint16_t x0, uint16_t y0, uint16_t w0, uint16_t h0, uint8_t id,
 void Button1::updateGraphic() {
 	if (tft==0) return;
 	if (pressed) {
-		//tft->drawBMP2( x1, y1, ( uint16_t * ) Arrow,22,32, mirrored, 0b0110000110001100, backColor);
+		(( Adafruit_TFTLCD * ) tft)->drawBMP2( x1, y1, ( uint16_t * ) Arrow,22,32, mirrored, 0b0110000110001100, backColor);
 	} else {
-		//tft->drawBMP2( x1, y1, ( uint16_t * ) Arrow,22,32, mirrored, 0 , backColor);
+		((Adafruit_TFTLCD *) tft )->drawBMP2(x1, y1, (uint16_t *)Arrow, 22, 32, mirrored, 0, backColor);
 	}
 }
 
