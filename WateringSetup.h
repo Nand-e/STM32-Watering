@@ -8,13 +8,6 @@
 #include "Scroll.h"
 
 
-struct chanel {
-	chanel();
-	uint8_t threshold;
-	uint8_t timeS;
-	uint8_t timeBan;
-};
-
 class WateringSetup : public State, ButtonHandler
 {
 public:
@@ -37,7 +30,7 @@ private:
 	ScrollBar scroll2;
 	ScrollBar scroll3;	
 	void callBack1(bool pressed, uint8_t id);
-	chanel c1, c2, c3;
+
 	chanel * actualChanel;
 };
 
