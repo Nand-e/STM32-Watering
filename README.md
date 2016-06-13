@@ -15,5 +15,5 @@ There are some on the Internet but most of them are not free,
 and some of them make wrong colour convertion.
 Thanks for Qt it was esay to write one. 
 
-![Alt text](/icons/imageToC.png?raw=true "Iamge to C source")
+![Alt text](/icons/ImageToC.png?raw=true "Iamge to C source")
 
