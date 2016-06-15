@@ -29,13 +29,17 @@ void BarGraph::updateGraphic() {
 	if (tft == 0) return;
 	
 	//if (thres != oldthres) {
-		tft->fillTriangle(x + oldthres - 5, y - 10, x + oldthres + 5, y - 10,
-			x + oldthres, y, 0x0000);		
-		tft->fillTriangle(x + thres - 5, y - 10, x + thres + 5, y - 10,
-			x + thres, y, 0x0eee);
-		oldthres = thres;
+	uint8_t v = map(oldthres, 0, 255, 0, w);
+	tft->fillTriangle(x + v- 5, y - 10, x + v + 5, y - 10,
+			x + v, y, 0x0000);	
+	v = map(thres, 0, 255, 0, w);
+	tft->fillTriangle(x + v - 5, y - 10, x + v + 5, y - 10,
+			x + v, y, 0x0eee);
+		
+	oldthres = thres;
 	//}
 	tft->drawRoundRect(x - 2, y - 2, w + 4, 24, 3, 0xffff);
-	tft->fillRect( x, y, oldValue, 20, 0xEEEE);
-	tft->fillRect( x + oldValue, y, w - oldValue, 20, 0x0eee);
+	v = map(oldValue, 0, 255, 0, w);
+	tft->fillRect( x, y, v, 20, 0xEEEE);
+	tft->fillRect( x + v, y, w - oldValue, 20, 0x0eee);
 }

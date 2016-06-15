@@ -9,10 +9,18 @@
 #include "State.h"
 
 struct chanel {
+
 	chanel();
+
+	enum State { off, on };
+	
 	uint8_t threshold;
 	uint8_t timeS;
 	uint8_t timeBan;
+	State state;
+	long lasttime = 0;
+
+
 };
 
 

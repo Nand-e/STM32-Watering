@@ -10,6 +10,8 @@ chanel::chanel() {
 	threshold = 0;
 	timeS     = 0;
 	timeBan   = 0;
+	state = off;
+	lasttime = 1000 * 60 * 60 * 24;  // perc * 60 perc * óra
 }
 
 #define SY 75

@@ -59,22 +59,44 @@ void measure::update(uint16_t x, uint16_t y, uint8_t z) {
 	static uint8_t c = 0;
 	
 	d++; 
-	if (d >= 5) {
+	if (d >= 3) {
 		d = 0;
-		c++;
-		c %= 100;
+		c++;		
 		tft->setTextSize(4);
 		tft->setCursor(150, 150);
 		tft->fillRect(150, 150, 60, 50, tft->color565(100, 0, 100));
 		tft->print(c);
 
+		bg1.setValue(c);
+		bg2.setValue(c);
+		bg3.setValue(c);
+
 	}
-	bg1.setValue(c);
-	bg2.setValue(c);
-	bg3.setValue(c);
-	// Set the the position, gap between meters, and inner radius of the meters
-	int xpos = 3, ypos = 5, gap = 4, radius = 50;
-	// xpos = gap + ringMeter(d, 0, 255, xpos, ypos, radius, "mA", GREEN2RED); // Draw analogue meter
+	
+	//Serial.println(machine->c1.threshold);
+	//Serial.println(c);
+
+
+	if (machine->c1.threshold < c) {
+		
+		if (machine->c1.state == chanel::off) {			// Ha ki van kapcsolva
+			machine->c1.state = chanel::on;
+			machine->c1.lasttime = millis();
+			tft->fillCircle(290, 32, 10, tft->color565( 0,255,0));
+		}
+	}
+
+	if (machine->c1.state ==  chanel::on) {
+		Serial.println((millis() - machine->c1.lasttime));
+		Serial.println(( long )machine->c1.timeS * 1000);
+		if ( (millis() - machine->c1.lasttime) > ( long ) machine->c1.timeS * 1000 ) // lejárt a bekapcsolás idõ
+		{
+			tft->fillCircle(290, 32, 10,tft->color565(0, 255, 255));
+			machine->c1.state = chanel::off;
+		}
+	
+	}
+
 
 	b1.update(x, y, z);
 }

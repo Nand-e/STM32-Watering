@@ -68,13 +68,14 @@ void ScrollBar::callBack2(bool pressed, uint8_t ID) {
 		switch (ID) {
 		case 0:   value--; break;
 		case 1:   value++; break;
-		}
-		value %= width;
+		}		
 		if (oldvalue != value)
 		{		
 			if (tft == 0) return;
-			tft->fillRect(x + bitmapW + ArrowW + 6 + oldvalue, y + 7, 10, 20, tft->color565(100, 100, 200));
-			tft->fillRoundRect(x + bitmapW + ArrowW + 6 + value, y + 7, 10, 20, 3, tft->color565(100, 200, 200));
+			uint8_t v = map(oldvalue, 0, 255, 0, width);
+			tft->fillRect(x + bitmapW + ArrowW + 6 + v, y + 7, 10, 20, tft->color565(100, 100, 200));
+			v = map(value, 0, 255, 0, width);
+			tft->fillRoundRect(x + bitmapW + ArrowW + 6 + v, y + 7, 10, 20, 3, tft->color565(100, 200, 200));
 			oldvalue = value;
 		}
 	}
