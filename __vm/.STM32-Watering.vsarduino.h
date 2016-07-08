@@ -71,6 +71,9 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\STM32-Watering\BarGraph.h>
 #include <..\STM32-Watering\Bitmaps.cpp>
 #include <..\STM32-Watering\Bitmaps.h>
+#include <..\STM32-Watering\DataStore.cpp>
+#include <..\STM32-Watering\DataStore.h>
+#include <..\STM32-Watering\FS.cpp>
 #include <..\STM32-Watering\FS.h>
 #include <..\STM32-Watering\Scroll.cpp>
 #include <..\STM32-Watering\Scroll.h>

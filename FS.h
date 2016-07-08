@@ -4,92 +4,46 @@
 #include <Arduino.h>
 #include <EEPROM\EEPROM.h>
 
-#define CHANELSADDRES 100
-
 #include "State.h"
+#define CHANELSADDRES 1000
+
+#include "DataStore.h"
+
 
 struct chanel {
-
 	chanel();
-
-	enum State { off, on };
-	
+	enum State { off, on };	
 	uint8_t threshold;
 	uint8_t timeS;
 	uint8_t timeBan;
 	State state;
 	long lasttime = 0;
-
-
 };
 
 
 class StateMachine {
   public:
-  StateMachine ( State * starts= 0 ){
+  StateMachine ( State * starts= 0 ): 
+  store ( 0, 50 )
+  {
     current = starts;
     stateTime = 0;
   }
-  //-----------------------------------------------
-  void update ( uint16_t x, uint16_t y, uint8_t z) {
-    if ( current != 0 ) {
-      current->update ( x, y, z );
-    }    
-  }
-  //-----------------------------------------------
-  void TransitionTo ( State * next) {
-    if ( next !=0 ) {
-      if ( current )  current->exit();
-      current = next;
-      current->enter ();
-      stateTime = millis ();
-    }
-  }
+  void update(uint16_t x, uint16_t y, uint8_t z); 
+  void TransitionTo (State * next);
+  unsigned long  getTimeIn () {   return ( millis () - stateTime );  }  
 
-  unsigned long  getTimeIn () {
-    return ( millis () - stateTime );
-  }
-
-  // Save Chanel information to eeprom
-  bool saveToEEPROM() {
-	  Serial.println(" Save to EEprom!");
-	  EEPROM.write(CHANELSADDRES,   c1.threshold);
-	  EEPROM.write(CHANELSADDRES+1, c1.timeS);
-	  EEPROM.write(CHANELSADDRES+2, c1.timeBan);
-
-	  EEPROM.write(CHANELSADDRES+3, c2.threshold);
-	  EEPROM.write(CHANELSADDRES+4, c2.timeS);
-	  EEPROM.write(CHANELSADDRES+5, c2.timeBan);
-
-	  EEPROM.write(CHANELSADDRES+6, c3.threshold);
-	  EEPROM.write(CHANELSADDRES+7, c3.timeS);
-	  EEPROM.write(CHANELSADDRES+8, c3.timeBan);	  
-  }
-  bool LoadFromEEPROM() {
-	  Serial.println(" Load from EEprom!");
-	  c1.threshold = EEPROM.read(CHANELSADDRES );
-	  c1.timeS     = EEPROM.read(CHANELSADDRES+ 1);
-	  c1.timeBan     = EEPROM.read(CHANELSADDRES+ 2);
-	
-	  c2.threshold = EEPROM.read(CHANELSADDRES+3);
-	  c2.timeS     = EEPROM.read(CHANELSADDRES+4);
-	  c2.timeBan   = EEPROM.read(CHANELSADDRES+5);
-	  
-	  c3.threshold = EEPROM.read(CHANELSADDRES+6);
-	  c3.timeS     = EEPROM.read(CHANELSADDRES+7);
-	  c3.timeBan   = EEPROM.read(CHANELSADDRES+8);
-  }
-
-  // Load EEPROM information to chanels
-
-
-  
+  bool saveToEEPROM();		// Save Chanel information to eeprom
+  bool LoadFromEEPROM();	// Load Chanel information from eeprom
 
   chanel c1, c2, c3;
 private:
   State * current;
   unsigned long stateTime;
+  DataStore<uint8_t> store;
+	
 };
+
 
 
 

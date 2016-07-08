@@ -1,23 +1,13 @@
-// IMPORTANT: SEE COMMENTS @ LINE 15 REGARDING SHIELD VS BREAKOUT BOARD USAGE.
 
-// Graphics library by ladyada/adafruit with init code from Rossum
-// MIT license
 
 #ifndef _ADAFRUIT_TFTLCD_H_
 #define _ADAFRUIT_TFTLCD_H_
 
 #if ARDUINO >= 100
  #include "Arduino.h"
-#else
- #include "WProgram.h"
 #endif
 
 #include "Adafruit_GFX.h"
-
-// **** IF USING THE LCD BREAKOUT BOARD, COMMENT OUT THIS NEXT LINE. ****
-// **** IF USING THE LCD SHIELD, LEAVE THE LINE ENABLED:             ****
-
-//#define USE_ADAFRUIT_SHIELD_PINOUT 1
 
 class Adafruit_TFTLCD : public Adafruit_GFX {
 
@@ -100,9 +90,6 @@ class Adafruit_TFTLCD : public Adafruit_GFX {
 #endif
 };
 
-// For compatibility with sketches written for older versions of library.
-// Color function name was changed to 'color565' for parity with 2.2" LCD
-// library.
 #define Color565 color565
 
 #endif

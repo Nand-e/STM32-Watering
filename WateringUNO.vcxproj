@@ -79,6 +79,7 @@
     <ClInclude Include="Bitmaps.h">
       <FileType>CppCode</FileType>
     </ClInclude>
+    <ClInclude Include="DataStore.h" />
     <ClInclude Include="FS.h" />
     <ClInclude Include="measure.h" />
     <ClInclude Include="pin_magic.h">
@@ -110,6 +111,8 @@
     <ClCompile Include="Adafruit_GFX.cpp" />
     <ClCompile Include="BarGraph.cpp" />
     <ClCompile Include="Bitmaps.cpp" />
+    <ClCompile Include="DataStore.cpp" />
+    <ClCompile Include="FS.cpp" />
     <ClCompile Include="glcdfont.c" />
     <ClCompile Include="measure.cpp" />
     <ClCompile Include="Scroll.cpp" />
