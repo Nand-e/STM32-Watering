@@ -31,8 +31,8 @@ Adafruit_TFTLCD tft  (LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 TouchScreen     ts = TouchScreen(XP, YP, XM, YM, 300);
 
 //******** State Machine and states
-StateMachine  machine;
-measure       baseState( &machine, &tft);
+StateMachine  machine ( 0 , tft );
+measure         baseState( &machine, &tft);
 WateringSetup setupState(&machine, &tft);
 
  
@@ -47,8 +47,8 @@ void setup(void) {
   tft.begin(identifier); 
   tft.setRotation (1);
 
-  pinMode(13, OUTPUT);
-  
+  pinMode(13, OUTPUT);  
+
   machine.TransitionTo(&baseState);
 
 }

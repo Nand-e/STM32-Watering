@@ -27,16 +27,12 @@ x(x1), y(y1), width(w)
 //*************************************************************************************************
 void ScrollBar::update(uint16_t x, uint16_t y, uint16_t z) {
 	b1.update(x, y, z);
-	b2.update(x, y, z);
-
-
-	
+	b2.update(x, y, z);	
 }
 
 //*************************************************************************************************
 void ScrollBar::setValue(uint8_t v) {
 	value = v;
-
 	callBack2( true, 255);
 }
 //*************************************************************************************************
@@ -64,11 +60,17 @@ void ScrollBar::updateGraphic() {
 //*************************************************************************************************
 void ScrollBar::callBack1(bool pressed, uint8_t ID) {};
 void ScrollBar::callBack2(bool pressed, uint8_t ID) {
-	if (pressed) {		
-		switch (ID) {
-		case 0:   value--; break;
-		case 1:   value++; break;
-		}		
+	static uint8_t d = 0;
+	d++;
+	if (pressed ) {		
+		
+		if (d > 8) {
+			d = 0;
+			switch (ID) {
+			case 0:   value--; break;
+			case 1:   value++; break;
+			}
+		}
 		if (oldvalue != value)
 		{		
 			if (tft == 0) return;

@@ -65,7 +65,7 @@ void Button::updateButtonState ( uint16_t x, uint16_t y, bool press ) {
 
 	if (oldpressed != pressed) {										// Button changed
 		updateGraphic();
-		if (handler != 0) handler->callBack1(pressed, ID);
+		if (handler != 0 ) handler->callBack1(pressed, ID);
 		return;
 	}
 	if (pressed && handler != 0)  handler->callBack2(pressed, ID);     // continouse pressing 

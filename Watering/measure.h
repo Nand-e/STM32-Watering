@@ -12,6 +12,8 @@ class measure : public State, public ButtonHandler
 public:
 	measure(StateMachine * m, Adafruit_TFTLCD * tft);
 	void update(uint16_t x, uint16_t y, uint8_t z);
+	void updateLed(uint16_t x, uint16_t y, bool onOff);
+
 	void enter();
 	void exit();
 
@@ -22,9 +24,19 @@ public:
 private:
 	Adafruit_TFTLCD * tft;	
 	Button b1;
+	Button b2;
+	Button b3;
+	Button b4;
+
+	long   s1;
+	long   s2;
+	long   s3;
+
 	BarGraph bg1;
 	BarGraph bg2;
 	BarGraph bg3;
-	void callBack1(bool pressed, uint8_t id);
+  void callBack2(bool pressed, uint8_t id) {}
+  void callBack1(bool pressed, uint8_t id); 
 };
+
 

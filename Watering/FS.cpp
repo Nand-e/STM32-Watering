@@ -1,5 +1,5 @@
 #include "FS.h"
-#include <EEPROM\EEPROM.h>
+#include <EEPROM\src\EEPROM.h>
 
 
 //-----------------------------------------------------------------
@@ -38,7 +38,7 @@ bool StateMachine::LoadFromEEPROM() {
 	c1.threshold = EEPROM.read(CHANELSADDRES);
 	c1.timeS = EEPROM.read(CHANELSADDRES + 1);
 	c1.timeBan = EEPROM.read(CHANELSADDRES + 2);
-
+	//Serial.println(c1.timeBan);
 	c2.threshold = EEPROM.read(CHANELSADDRES + 3);
 	c2.timeS = EEPROM.read(CHANELSADDRES + 4);
 	c2.timeBan = EEPROM.read(CHANELSADDRES + 5);

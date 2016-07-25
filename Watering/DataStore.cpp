@@ -1,5 +1,6 @@
 #include "DataStore.h"
-#include <EEPROM\EEPROM.h>
+#include <EEPROM\src\EEPROM.h>
+
 
 /*
 template < class T >
