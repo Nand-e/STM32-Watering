@@ -1,5 +1,6 @@
 
 #include <Arduino.h>
+#include "Adafruit_ST7735.h"
 extern Adafruit_ST7735 tft;
 
 // Meter colour schemes
@@ -32,6 +33,7 @@ extern Adafruit_ST7735 tft;
 #define ILI9341_PINK        0xF81F
 
 
+unsigned int rainbow(byte value);
 
 
 // #########################################################################

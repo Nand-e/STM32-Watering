@@ -4,8 +4,9 @@
 #include "State.h"
 #include "FS.h"
 #include "TFT.h"
-#include "TFTBUTTON.h"
-#include "Scroll.h"
+
+#include "wButton.h"
+#include "wScroll.h"
 
 
 class WateringSetup : public State, ButtonHandler
@@ -21,11 +22,12 @@ public:
 	// ~
 private:
 	Adafruit_TFTLCD * tft;
-	Button   ch1;
-	Button   ch2;
-	Button   ch3;
+	Button   ch1Button;
+	Button   ch2Button;
+	Button   ch3Button;
 	Button   back;
 	Button   save;
+
 	ScrollBar scroll1;
 	ScrollBar scroll2;
 	ScrollBar scroll3;	

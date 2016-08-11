@@ -17,17 +17,19 @@ struct chanel {
 	uint8_t threshold;
 	uint8_t timeS;
 	uint8_t timeBan;
-
+	void update( uint8_t v);
+	void switchTo ( bool v);
 	bool switched;
-	long lasttime = 0;
+	bool banned;
+	
+	unsigned long lasttime = 0;
 };
 
 
 class StateMachine {
 public:
 	StateMachine(State * starts, Adafruit_GFX & tft1) :
-		tft(tft1),
-		chart(tft1)
+		tft(tft1)	
 	{
 		current = starts;
 		stateTime = 0;
@@ -39,8 +41,7 @@ public:
 	bool saveToEEPROM();				// Save Chanel information to eeprom
 	bool LoadFromEEPROM();			// Load Chanel information from eeprom
 
-	chanel c1, c2, c3;
-	ChartData chart;
+	chanel c1, c2, c3;	
 private:
 	State * current;
 	unsigned long stateTime;

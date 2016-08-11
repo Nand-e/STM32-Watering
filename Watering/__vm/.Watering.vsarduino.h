@@ -70,20 +70,19 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\Watering\BarGraph.h>
 #include <..\Watering\Bitmaps.cpp>
 #include <..\Watering\Bitmaps.h>
+#include <..\Watering\ChartData.cpp>
 #include <..\Watering\ChartData.h>
 #include <..\Watering\DataStore.cpp>
 #include <..\Watering\DataStore.h>
 #include <..\Watering\FS.cpp>
 #include <..\Watering\FS.h>
 #include <..\Watering\Scroll.cpp>
-#include <..\Watering\Scroll.h>
 #include <..\Watering\State.h>
 #include <..\Watering\TFT.cpp>
 #include <..\Watering\TFT.h>
 #include <..\Watering\TFTButton.cpp>
-#include <..\Watering\TFTButton.h>
-#include <..\Watering\TFTButton1.cpp>
-#include <..\Watering\TFTButton1.h>
+#include <..\Watering\TouchScreen.cpp>
+#include <..\Watering\TouchScreen.h>
 #include <..\Watering\WateringSetup.cpp>
 #include <..\Watering\WateringSetup.h>
 #include <..\Watering\glcdfont.c>
@@ -92,4 +91,8 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\Watering\pin_magic.h>
 #include <..\Watering\pin_magic_UNO.h>
 #include <..\Watering\registers.h>
+#include <..\Watering\wButton.h>
+#include <..\Watering\wScroll.h>
+#include <..\Watering\widget.cpp>
+#include <..\Watering\widget.h>
 #endif

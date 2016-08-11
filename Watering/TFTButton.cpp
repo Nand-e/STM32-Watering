@@ -3,13 +3,9 @@
 #include "TFTButton.h"
 #include <Arduino.h>
 
-// static varible definitions
-Adafruit_GFX * Button::tft;
 
 /**************************************************************************************************************/
-Button::Button() {
-	handler = 0;
-}
+Button::Button() { handler = 0; }
 
 /*Construct Button in x,y coordinate **************************************************************************/
 Button::Button ( uint16_t x0, uint16_t y0, uint16_t w0, uint16_t h0, uint8_t id, bool mirrored1, uint16_t color, char * text1) :
@@ -39,10 +35,10 @@ void Button::setColors(uint16_t c1, uint16_t bc) {
 	backColor = bc;
 }
 
-/****************************************************************************************************************/
+/****************************************************************************************************************
 void Button::setDisplay(Adafruit_GFX * tft) {
 	Button::tft = tft;
-}
+}*/
 
 /* Call in every loop on every Button ****************************************************************************/
 void Button::update(uint16_t x, uint16_t y, uint16_t z) {
@@ -64,7 +60,7 @@ void Button::updateButtonState ( uint16_t x, uint16_t y, bool press ) {
 	if (millis() - lastpressed > 200) pressed = false;
 
 	if (oldpressed != pressed) {										// Button changed
-		updateGraphic();
+		reDraw();
 		if (handler != 0 ) handler->callBack1(pressed, ID);
 		return;
 	}
@@ -73,26 +69,20 @@ void Button::updateButtonState ( uint16_t x, uint16_t y, bool press ) {
 
 /*  
  **********************************************************************************/
-void Button::updateGraphic ( ) {
+void Button::reDraw ( ) {
     if (tft == 0) return;
-	if (pressed) {
-	
-		
-		tft->fillRoundRect(x1 + 3, y1 + 3, w - 6, h - 6, RAD, backColor << 2);
-	
-		
+	theme->drawBox( tft, x1, y1, w, h, pressed);
+	if (!pressed) {	
 		if (text != 0) {
-			tft->setCursor(x1 + 15, y1+12 );
+			tft->setCursor(x1 + 15, y1 + 12);
 			tft->setTextColor(backColor);
 			tft->setTextSize(1);
 			tft->println(text);
 		}
 	}
 	else {
-		tft->fillRoundRect(x1, y1, w, h, RAD, backColor);
-		tft->drawRoundRect(x1, y1, w, h,RAD , color);
 		if (text != 0) {
-			tft->setCursor(x1 + 15 , y1+12);
+			tft->setCursor(x1 + 15, y1 + 12);
 			tft->setTextColor(color);
 			tft->setTextSize(1);
 			tft->print(text);

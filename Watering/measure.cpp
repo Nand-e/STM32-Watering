@@ -16,37 +16,44 @@ extern WateringSetup setupState;
 #define Y1 10
 #define Y2 50
 #define Y3 90
+#define BW 50
 
 #define X1 10
 #define X2 110
 #define X3 220
 
-#define XL1 40
-#define XL2 140
-#define XL3 250
+#define XL1 X1+70
+#define XL2 X2+70
+#define XL3 X3+70
+
+#define CHX 50
+#define CHY 55
+
+
+#define LEDY Y1+ 15
 
 #define BH 30
 
-#define XLED 280
+//#define XLED 280
 
 #define S1PIN 10
 #define S2PIN 11
 #define S3PIN 12
 
 
-measure::measure(StateMachine * m, Adafruit_TFTLCD * tft1) :
+measure::measure(StateMachine * m, Adafruit_GFX * tft1) :
   State(m),
   tft(tft1),
   b1(5  , 200, 60 , 35, 5, false, 0, "Setup"),
-  b2(X1, Y1 , 80, BH, 10, false, 0, "S1"),
-  b3(X2, Y1 , 80, BH, 11, false, 0, "S2"),
-  b4(X3, Y1 , 80, BH, 12, false, 0, "S3"),
+  b2(X1, Y1 , BW, BH, 10, false, 0, "S1"),
+  b3(X2, Y1 , BW, BH, 11, false, 0, "S2"),
+  b4(X3, Y1 , BW, BH, 12, false, 0, "S3"),
+  chart( *tft,  CHX+20, CHY+20 )
 
-  bg1(tft1, 60, 20, 200),
-  bg2(tft1, 60, 60, 200),
-  bg3(tft1, 60, 100, 200)	
+ // bg1(tft1, 60, 20, 200),
+ // bg2(tft1, 60, 60, 200),
+ // bg3(tft1, 60, 100, 200)	
 {	
-  	b1.setDisplay(tft);
   	b1.setHandler(this);
     b2.setHandler(this);
     b3.setHandler(this); 
@@ -60,7 +67,11 @@ measure::measure(StateMachine * m, Adafruit_TFTLCD * tft1) :
 void measure::enter() {
 	tft->fillRect(0, 0, 320, 240, tft->color565(100, 0, 100));
 	tft->drawRoundRect(0, 0, 320, 240, 3, 0xfefe);
-	b1.updateGraphic();
+	
+	Widget::theme->drawBox(tft, CHX, CHY, 240, 140, false);
+	Widget::theme->drawBox(tft, CHX+10, CHY+10, 220, 120, true);
+
+
 //	tft->drawBitmap(20, Y1, watercan, 32, 32,0);
 //	tft->drawBitmap(20, Y2, watercan, 32, 32,0);
 //	tft->drawBitmap(20, Y3, watercan, 32, 32,0);
@@ -72,21 +83,22 @@ void measure::enter() {
 	bg2.setThreshold(machine->c2.threshold);
 	bg3.setThreshold(machine->c3.threshold);
 
-	bg1.updateGraphic();
-	bg2.updateGraphic();
-	bg3.updateGraphic();*/
+	bg1.reDraw();
+	bg2.reDraw();
+	bg3.reDraw();*/
 
-	b2.updateGraphic();
-	b3.updateGraphic();
-	b4.updateGraphic();
+	b1.reDraw();
+	b2.reDraw();
+	b3.reDraw();
+	b4.reDraw();
 
 	pinMode(S1PIN, OUTPUT);
 	pinMode(S2PIN, OUTPUT);
 	pinMode(S3PIN, OUTPUT);
 
-	updateLed(X1+30, Y2, false);
-	updateLed(X2+30, Y2, false);
-	updateLed(X3+30, Y2, false);
+	updateLed(XL1, LEDY, false);
+	updateLed(XL2, LEDY, false);
+	updateLed(XL3, LEDY, false);
 
 
 }
@@ -95,81 +107,62 @@ void measure::exit() {}
 
 void measure::updateLed(uint16_t x, uint16_t y, bool onOff) {
 	if (onOff)  {
-		tft->fillCircle(x, y + 15, 15, tft->color565(0, 200, 50));
-		tft->drawCircle(x, y+15, 16,  tft->color565( 200, 200, 200 ) );
+		tft->fillCircle(x, y, 8, tft->color565(0, 200, 50));
+		tft->drawCircle(x, y,  9,  tft->color565( 200, 200, 200 ) );
 	}
 	else {
-		tft->fillCircle(x,y+15, 15, tft->color565(0, 100, 20));
-		tft->drawCircle(x, y+15, 16, tft->color565(200, 200, 200));
+		tft->fillCircle(x,y, 8, tft->color565(0, 100, 20));
+		tft->drawCircle(x, y, 9, tft->color565(200, 200, 200));
 	}
 }
 
 
 void measure::update(uint16_t x, uint16_t y, uint8_t z) {
     
-	//machine->c1.timeS
-	static long period = millis();
+
+	static unsigned long period = millis();
 	static bool os1 = false, os2 = false, os3 = false;
 	
 	static uint8_t d = 255;
 	static uint8_t index = 0;
-
-
-
-	if (  millis() - period > 50) {
+	
+	if (  millis() - period > 1000 ) {
 		period = millis();
-		index++;
-		index %= 200;
-		d--;
-		bool banned = false;
-		if (machine->c1.switched && d < 250) d += 3;
-
-		uint32_t ban =  ( uint32_t ) machine->c1.timeBan * 100;
-		Serial.println(ban);
+		if ( d > 0) d--;
 		
-		if ( ( millis() - machine->c1.lasttime ) < ban ) {			
-			banned = true;
+		if (machine->c1.switched) {
+			if ( d <= 250 ) d += 5;
 		}
-		else {
-			if (machine->c1.threshold > d  && !machine->c1.switched) 	{
-				machine->c1.switched = true;
-			}
-		}
-		machine->chart.setData(index, d / 3, machine->c1.switched , banned);
-	}
-
-
+		
+		index++;
 	
-
-	uint32_t ontime = (uint32_t)machine->c1.timeS * 100;
-	if (millis() - machine->c1.lasttime > ontime) {
-		digitalWrite(S1PIN, LOW);
-		machine->c1.switched = false;
-		machine->c1.lasttime = millis();
-		// 		Serial.println("S1 OFF");
-	}
-	
-	if (millis() - s2 >  10000 ){
-		digitalWrite(S2PIN, LOW);
-		machine->c2.switched = false;	
-	}
-	if (millis() - s3 >  10000 ) {
-		digitalWrite(S3PIN, LOW);
-		machine->c3.switched = false;
+		chart.setData(index%200, d / 3, machine->c1.switched , machine->c1.banned,
+										machine->c2.switched , machine->c2.banned,
+										machine->c3.switched , machine->c3.banned   );
+		
 	}
 
+	machine->c1.update(0);
+	machine->c2.update(0);
+	machine->c3.update(0);
 
+	digitalWrite(S1PIN, machine->c1.switched);
+	digitalWrite(S2PIN, machine->c2.switched);
+	digitalWrite(S3PIN, machine->c3.switched);
+
+
+	// redraw Leds
 	if (machine->c1.switched != os1) {
-		updateLed(XL1, Y2 ,  machine->c1.switched);
+		updateLed(XL1, LEDY ,  machine->c1.switched);
 		os1 = machine->c1.switched;
 	}
 	if (machine->c2.switched !=  os2 ) {
-		updateLed(XL2, Y2 , machine->c2.switched );
+		updateLed(XL2, LEDY , machine->c2.switched );
 		os2 = machine->c2.switched;
 	}
 
 	if (machine->c3.switched != os3) {
-		updateLed(XL3, Y2 , machine->c3.switched);
+		updateLed(XL3, LEDY , machine->c3.switched);
 		os3 = machine->c3.switched;
 	}
 
@@ -183,21 +176,15 @@ void measure::callBack1(bool pressed, uint8_t ID) {
 	//tft->fillRect(0, 0, 100, 100, 0xf0f0);
 	if (pressed) {
 		switch (ID) {
-		case 10:
-			machine->c1.lasttime = millis();
-			digitalWrite(S1PIN, HIGH);
-			machine->c1.switched = machine->c1.switched ? false : true;
-		    Serial.println ("S1 ON" );
+		case 10:		
+			machine->c1.switchTo(machine->c1.switched ? false : true);
+		   // Serial.println ("S1 ON" );
 			break;
-		case 11:
-			s2 = millis();	
-			digitalWrite(S2PIN, HIGH);
-			machine->c2.switched = machine->c2.switched ? false : true;
+		case 11:			
+			machine->c2.switchTo(machine->c2.switched ? false : true);
 			break;
-		case 12:
-			s3 = millis();		
-			digitalWrite(S3PIN, HIGH);
-			machine->c3.switched = machine->c3.switched ? false : true;
+		case 12:		
+			machine->c3.switchTo(machine->c3.switched ? false : true);
 			break;
 		case 5:
 			machine->TransitionTo(&setupState);

@@ -1,9 +1,9 @@
-#include <TouchScreen.h>
+#include "TouchScreen.h"
 
 #include "TFT.h"
 #include "FS.h"				// final state machine class
 
-
+#include "widget.h"
 #include "measure.h"
 #include "WateringSetup.h"
 
@@ -31,16 +31,17 @@ Adafruit_TFTLCD tft  (LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 TouchScreen     ts = TouchScreen(XP, YP, XM, YM, 300);
 
 //******** State Machine and states
-StateMachine  machine ( 0 , tft );
-measure         baseState( &machine, &tft);
-WateringSetup setupState(&machine, &tft);
+StateMachine  machine   ( 0 , tft );
+measure       baseState ( &machine, &tft);
+WateringSetup setupState( &machine, &tft);
 
+Theme theme1;
  
 /* Setup ******************************************************************************************/
 void setup(void) {
 
   Serial.begin (9600);
-  Serial.println ( "Watering system start!");
+  Serial.println ( "Watering start!");
   tft.reset();
   uint16_t identifier = tft.readID();
   Serial.println ( identifier );
@@ -48,9 +49,10 @@ void setup(void) {
   tft.setRotation (1);
 
   pinMode(13, OUTPUT);  
+  Widget::theme = & theme1;				// init widget
+  Widget::setDisplay(&tft);  
 
   machine.TransitionTo(&baseState);
-
 }
 
 
@@ -73,11 +75,13 @@ void loop()
    p2.y = map(p.x, TS_MINX, TS_MAXX,0, 240 );   
    p2.x = map(p.y, TS_MAXY, TS_MINY, 0, 320 );    
    
-  /*  tft.fillCircle ( p2.x, p2.y , 2, 0xf000 );
-    
+   tft.drawPixel( p2.x, p2.y ,  0xf000 );
+   
     Serial.print ( p.x );
-    Serial.print ( " , " );
-    Serial.println ( p.y );*/
+    Serial.print ( " , y:" );
+    Serial.println ( p.y );
+	Serial.print(" , z:");
+	Serial.println( p.z);
 
   }  
 

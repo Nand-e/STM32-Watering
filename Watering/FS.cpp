@@ -1,6 +1,31 @@
 #include "FS.h"
 #include <EEPROM\src\EEPROM.h>
 
+void chanel::update( uint8_t value ) {
+	if (switched) {
+		unsigned long v = this->timeS * 1000;
+		if ((millis() - lasttime) > v) {			// the water period experied ???
+			switched = false;
+			lasttime = millis();
+			return;
+		}
+	}
+	unsigned long v = this->timeBan * 1000;
+	banned = true;
+	if (!switched && ( millis() - lasttime >  v )) {
+		banned = false;
+		if (value < this->threshold) {
+			switched = true;
+			lasttime = millis();
+		}
+	}
+
+}
+void chanel::switchTo ( bool v) {
+	switched = v;
+	lasttime = millis();
+
+}
 
 //-----------------------------------------------------------------
 void StateMachine::update(uint16_t x, uint16_t y, uint8_t z) {

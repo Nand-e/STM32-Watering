@@ -16,15 +16,7 @@ Button1::Button1(uint16_t x0, uint16_t y0, uint16_t w0, uint16_t h0, uint8_t id,
 
 
 //**************************************************************************************************************
-void Button1::updateGraphic() {
-	if (tft==0) return;
-	if (pressed) {
-		if (mirrored) tft->fillTriangle(x1 + 22, y1+4, x1 + 22, y1 + 28, x1+4, y1 + 16, 0x55ee);
-		else  tft->fillTriangle(x1, y1+4, x1, y1 + 28, x1 + 18, y1 + 16, 0x55ee);		
-		//(( Adafruit_TFTLCD * ) tft)->drawBMP2( x1, y1, ( uint16_t * ) Arrow,22,32, mirrored, 0b0110000110001100, backColor);
-	} else {
-		if (mirrored) tft->fillTriangle(x1 + 22, y1 + 4, x1 + 22, y1 + 28, x1+4, y1 + 16, 0xffee);
-		else  tft->fillTriangle(x1, y1 + 4, x1, y1 + 28, x1 + 18, y1 + 16, 0xffee);
-	}
+void Button1::reDraw() {
+
 }
 
